@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useCallback } from 'react';
 
 import Statistics from './components/Statistics';
 import FeedbackOption from './components/FeedbackOption';
@@ -7,57 +7,62 @@ import Notification from './shared/Notification';
 
 const options = ['good', 'neutral', 'bad'];
 
-export class App extends Component {
-  state = {
+function App() {
+  const [state, setState] = useState({
     good: 0,
     neutral: 0,
-    bad: 0
-  }
+    bad: 0,
+  });
 
-  handleClick = (item) => {
+  const handleClick = useCallback(
+    item => {
+      setState(prevState => ({
+        ...prevState,
+        [item]: prevState[item] + 1,
+      }));
+    },
+    [setState]
+  );
 
-    this.setState(prevState => ({
-      [item]: prevState[item] + 1,
-    }));
-  }
-
-
-
-  totalFeedback() {
-    const { good, neutral, bad } = this.state;
+  const totalFeedback = useCallback(() => {
+    const { good, neutral, bad } = state;
     const n = good + neutral + bad;
     return n;
-  }
+  }, [state]);
 
-  positiveFeedback() {
-    const { good } = this.state;
-    const total = this.totalFeedback();
+  const positiveFeedback = useCallback(() => {
+    const { good } = state;
+    const total = totalFeedback();
     const number = Math.ceil((good / total) * 100);
     return number;
-  }
+  }, [state, totalFeedback]);
 
-  render() {
-    const percent = this.positiveFeedback();
-    const total = this.totalFeedback();
-    const positiveFb = percent ? percent : 0;
-    const { good, neutral, bad } = this.state;
-    return (
-      <>
-        <Section title={'Please Live Feedback'}>
-          <FeedbackOption
-            options={options}
-            onLeaveFeedback={this.handleClick}
+  const percent = positiveFeedback();
+  const total = totalFeedback();
+  const positiveFb = percent ? percent : 0;
+  const { good, neutral, bad } = state;
+
+  return (
+    <>
+      <Section title={'Please Live Feedback'}>
+        <FeedbackOption options={options} onLeaveFeedback={handleClick} />
+      </Section>
+      <Section title={'Statistics'}>
+        {total ? (
+          <Statistics
+            title="Statistics"
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={total}
+            positivePercentage={positiveFb}
           />
-        </Section>
-        <Section title={'Statistics'}>
-          {total ?
-            <Statistics title='Statistics' good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positiveFb} /> :
-            <Notification message={`There's no feedback`} />}
-        </Section>
-
-      </>
-    );
-  }
-};
+        ) : (
+          <Notification message={`There's no feedback`} />
+        )}
+      </Section>
+    </>
+  );
+}
 
 export default App;
