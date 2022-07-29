@@ -1,0 +1,31 @@
+.feedback_btn {
+    width: 60px;
+    height: 30px;
+    margin-right: 10px;
+    padding: 5px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: medium;
+    font-weight: 200;
+    font-style: italic;
+    text-align: center;
+    color: white;
+    background-color: rgb(41, 93, 137);
+    border: none;
+    border-radius: 10px;
+}
+
+.feedback_btn:hover,
+.feedback_btn:focus {
+    background-color: rgb(105, 255, 150);
+    color: rgb(41, 93, 137);
+    box-shadow: rgb(32, 95, 51) 0px 3px 8px;
+    ;
+}
+
+.feedback_btn:last-child {
+    margin-right: 0;
+}
+
+.feedback_btn_block {
+    margin-bottom: 25px;
+}
