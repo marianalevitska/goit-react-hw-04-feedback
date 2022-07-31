@@ -1,4 +1,4 @@
-// import { Component } from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import stl from './statistics.module.css';
 
@@ -31,4 +31,4 @@ Statistics.propTypes = {
 
 
 
-export default Statistics;
+export default memo(Statistics);

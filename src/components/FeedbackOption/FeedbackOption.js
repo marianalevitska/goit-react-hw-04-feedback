@@ -1,3 +1,5 @@
+
+import { memo } from 'react';
 import PropTypes from 'prop-types'
 
 import stl from './feedbackOption.module.css'
@@ -29,4 +31,4 @@ FeedbackOption.defaultProps = {
     options: []
 };
 
-export default FeedbackOption;
+export default memo(FeedbackOption);
